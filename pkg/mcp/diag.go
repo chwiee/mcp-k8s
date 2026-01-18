@@ -14,5 +14,5 @@ func DiagnoseNamespace(namespace string) (*diag.Result, error) {
 	}
 
 	ctx := context.Background()
-	return diagnosis.Analyze(ctx, client, namespace)
+	return diag.Analyze(ctx, client, namespace)
 }
