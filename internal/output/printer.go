@@ -6,22 +6,26 @@ import (
 	"github.com/chwiee/mcp-k8s/internal/diag"
 )
 
-func Print(findings []diag.Finding, namespace string) {
-	if len(findings) == 0 {
-		fmt.Printf("✅ Namespace %s sem problemas detectados.\n", namespace)
-		return
+func Print(result *diag.Result, namespace string) {
+	fmt.Printf("📊 Diagnóstico do namespace %s\n\n", namespace)
+
+	fmt.Printf("Severidade: %s\n", result.Severity)
+	fmt.Printf("Tipo: %s\n", result.ErrorType)
+	fmt.Printf("Resumo: %s\n\n", result.Summary)
+
+	if len(result.Details) > 0 {
+		fmt.Println("Detalhes:")
+		for _, d := range result.Details {
+			fmt.Println("-", d)
+		}
+		fmt.Println()
 	}
 
-	fmt.Printf("❌ Problemas detectados no namespace %s\n\n", namespace)
-
-	for _, f := range findings {
-		fmt.Printf("🔴 Pod: %s\n", f.PodName)
-		fmt.Printf("   Tipo: %s\n", f.Reason)
-		fmt.Printf("   Explicação: %s\n", f.Description)
-		fmt.Println("   Recomendação:")
-		fmt.Println("   - Aumentar o memory limit do container")
-		fmt.Println("   - Avaliar consumo de memória da aplicação")
-		fmt.Println("   - Verificar se há vazamento de memória")
+	if len(result.Recommendations) > 0 {
+		fmt.Println("Recomendações:")
+		for _, r := range result.Recommendations {
+			fmt.Println("-", r)
+		}
 		fmt.Println()
 	}
 }
