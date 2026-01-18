@@ -25,10 +25,10 @@ func main() {
 
 	ctx := context.Background()
 
-	result, err := diag.Analyze(ctx, client, namespace)
+	findings, err := diag.Analyze(ctx, client, namespace)
 	if err != nil {
 		panic(err)
 	}
 
-	output.Print([]interface{}{result, namespace})
+	output.Print(findings, namespace)
 }
